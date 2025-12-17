@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workerhttprequest-configmap
+data:
+  EndpointRequestJson: https://baconipsum.com/api/?type=all-meat&params=2&start-with-lorem=1
+  EndpointRequest: https://baconipsum.com/api/?type=all-meat&params=2&start-with-lorem=1&format=html

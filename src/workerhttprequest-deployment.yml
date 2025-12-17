@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workerhttprequest
+  annotations:
+    # reloader.stakater.com/auto: "true"
+    secret.reloader.stakater.com/auto: "true"
+    # configmap.reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: workerhttprequest
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: workerhttprequest
+    spec:
+      containers:
+        - name: workertests01
+          image: renatogroffe/dotnet10-worker-httprequest:1
+          env:
+          - name: WaitingTimeInSeconds
+            value: "15"
+          - name: EndpointRequest
+            valueFrom:
+              # configMapKeyRef:
+              #   name: workerhttprequest-configmap
+              #   key: EndpointRequest
+              secretKeyRef:
+                name: workerhttprequest-secret
+                key: EndpointRequest
+          resources:
+              requests:
+                memory: "64Mi"
+                cpu: "50m"
+              limits:
+                memory: "128Mi"
+                cpu: "100m"
+          securityContext:
+            allowPrivilegeEscalation: false
